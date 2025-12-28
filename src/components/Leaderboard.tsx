@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import { User } from '@/types'
 import LeaderboardRow from './LeaderboardRow'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
-
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -21,7 +19,8 @@ export default function Leaderboard() {
     try {
       setLoading(true)
       const offset = (page - 1) * itemsPerPage
-      const response = await fetch(`${API_URL}/api/leaderboard?limit=${itemsPerPage}&offset=${offset}`)
+      // Use local API route instead of external API
+      const response = await fetch(`/api/leaderboard?limit=${itemsPerPage}&offset=${offset}`)
       
       if (!response.ok) {
         throw new Error('Failed to fetch leaderboard')
